@@ -493,7 +493,7 @@ func (ds *Dispatcher) PageNotFound(w http.ResponseWriter, r *http.Request) (stat
 	ds.prometheusOps404.Inc()
 	InitResponseFromDispatcher(&response, ds, "Error")
 	status = http.StatusNotFound
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.WriteHeader(status)
 	contentLen = ds.Reply(w, response)
 	return status, contentLen, "Path not registered"
@@ -506,7 +506,7 @@ func (ds *Dispatcher) PageNotAuthorized(w http.ResponseWriter, r *http.Request) 
 	ds.prometheusOps401.Inc()
 	InitResponseFromDispatcher(&response, ds, "Not authorized")
 	status = http.StatusUnauthorized
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.WriteHeader(status)
 	contentLen = ds.Reply(w, response)
 	return status, contentLen, "Not authorized"
@@ -518,7 +518,7 @@ func (ds *Dispatcher) defaultOptions(w http.ResponseWriter, r *http.Request) (st
 	var response Response
 	InitResponseFromDispatcher(&response, ds, "Allow all")
 	status = http.StatusOK
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.Header().Add("Access-Control-Allow-Methods", "*")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Add("Access-Control-Allow-Headers", "X-Cid, X-Chost, X-Version, X-Namespace, X-Environment, x-session-id, x-correlation-id, x-sequence-nr, x-request-id, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags, b3, x-ot-span-context")
