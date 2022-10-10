@@ -491,8 +491,8 @@ func (ds *Dispatcher) handler(handlers *HandlerGroup, w http.ResponseWriter, r *
 func (ds *Dispatcher) PageNotFound(w http.ResponseWriter, r *http.Request) (status int, contentLen int, msg string) {
 	var response Response
 	ds.prometheusOps404.Inc()
-	InitResponseFromDispatcher(&response, ds, "Error")
 	status = http.StatusNotFound
+	InitResponseFromDispatcher(&response, ds, status, fmt.Sprintf("%d - Error: PageNotFound", status))
 	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.WriteHeader(status)
 	contentLen = ds.Reply(w, response)
@@ -504,8 +504,8 @@ func (ds *Dispatcher) PageNotFound(w http.ResponseWriter, r *http.Request) (stat
 func (ds *Dispatcher) PageNotAuthorized(w http.ResponseWriter, r *http.Request) (status int, contentLen int, msg string) {
 	var response Response
 	ds.prometheusOps401.Inc()
-	InitResponseFromDispatcher(&response, ds, "Not authorized")
 	status = http.StatusUnauthorized
+	InitResponseFromDispatcher(&response, ds, status, fmt.Sprintf("%d - Error: PageNotAuthorized", status))
 	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.WriteHeader(status)
 	contentLen = ds.Reply(w, response)
@@ -516,8 +516,8 @@ func (ds *Dispatcher) PageNotAuthorized(w http.ResponseWriter, r *http.Request) 
 
 func (ds *Dispatcher) defaultOptions(w http.ResponseWriter, r *http.Request) (status int, contentLen int, msg string) {
 	var response Response
-	InitResponseFromDispatcher(&response, ds, "Allow all")
 	status = http.StatusOK
+	InitResponseFromDispatcher(&response, ds, status, fmt.Sprintf("%d - Ok - Sent default options", status))
 	ds.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.Header().Add("Access-Control-Allow-Methods", "*")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")

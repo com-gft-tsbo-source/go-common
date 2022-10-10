@@ -18,6 +18,6 @@ type Response struct {
 // ###########################################################################
 
 // InitResponseFromMicroService ...
-func InitResponseFromMicroService(r *Response, ms IConfiguration, status string) {
-	dispatcher.InitResponseFromDispatcher(&r.Response, ms, status)
+func InitResponseFromMicroService(r *Response, ms IConfiguration, code int, status string) {
+	dispatcher.InitResponseFromDispatcher(&r.Response, ms, code, status)
 }

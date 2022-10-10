@@ -113,8 +113,8 @@ func InitFromArgs(ms *MicroService, args []string, flagset *flag.FlagSet, defaul
 // httpGetStatus ...
 func (ms *MicroService) httpGetStatus(w http.ResponseWriter, r *http.Request) (status int, contentLen int, msg string) {
 	var response Response
-	InitResponseFromMicroService(&response, ms, "OK")
 	status = http.StatusOK
+	InitResponseFromMicroService(&response, ms, status, fmt.Sprintf("%d - OK", status))
 	ms.SetResponseHeaders("application/json; charset=utf-8", w, r)
 	w.WriteHeader(status)
 	contentLen = ms.Reply(w, response)
