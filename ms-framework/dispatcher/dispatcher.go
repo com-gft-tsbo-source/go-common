@@ -307,16 +307,12 @@ func (ds *Dispatcher) Run() {
 
 	if ds.tlsInfo != nil && ds.tlsInfo.certificate != nil {
 		listener, err = tls.Listen("tcp", fmt.Sprintf("%s:%d", ds.GetHost(), ds.GetPort()), ds.tlsInfo.tlsConfig)
-		if err != nil {
-			ds.GetLogger().Fatal(err)
-			return
-		}
 	} else {
 		listener, err = net.Listen("tcp", fmt.Sprintf("%s:%d", ds.GetHost(), ds.GetPort()))
-		if err != nil {
-			ds.GetLogger().Fatal(err)
-			return
-		}
+	}
+	if err != nil {
+		ds.GetLogger().Fatal(err)
+		return
 	}
 
 	if ds.GetMaxConnections() > 0 {
@@ -334,7 +330,7 @@ func (ds *Dispatcher) Run() {
 	}
 
 	if ds.GetMaxConnections() > 0 {
-		ds.GetLogger().Println(fmt.Sprintf("Allowing %d concurrent connections.", ds.GetMaxConnections()))
+		ds.GetLogger().Println(fmt.Sprintf("Allowing %d concurrent requests.", ds.GetMaxConnections()))
 	}
 
 	if ds.GetDelayReply() > 0 {
