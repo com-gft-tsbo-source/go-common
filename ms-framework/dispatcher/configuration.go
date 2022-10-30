@@ -44,6 +44,7 @@ type ITLSConfiguration interface {
 
 // LimitConfiguration ...
 type LimitConfiguration struct {
+	// MaxTcpConnections int `json:"maxtcpconnections"`
 	MaxConnections int `json:"maxconnections"`
 	DelayReply     int `json:"delayreply"`
 	ClientTimeout  int `json:"clienttimeout"`
@@ -51,6 +52,7 @@ type LimitConfiguration struct {
 
 // ILimitConfiguration ...
 type ILimitConfiguration interface {
+	// GetMaxTcpConnections() int
 	GetMaxConnections() int
 	GetDelayReply() int
 	GetClientTimeout() int
@@ -170,6 +172,9 @@ func (cfg *TLSConfiguration) GetKeyFile() string { return cfg.KeyFile }
 
 // GetCAFile ...
 func (cfg *TLSConfiguration) GetCAFile() string { return cfg.CAFile }
+
+// // GetMaxTcpConnections ...
+// func (cfg *LimitConfiguration) GetMaxTcpConnections() int { return cfg.MaxTcpConnections }
 
 // GetMaxConnections ...
 func (cfg *LimitConfiguration) GetMaxConnections() int { return cfg.MaxConnections }

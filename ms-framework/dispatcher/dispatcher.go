@@ -333,6 +333,10 @@ func (ds *Dispatcher) Run() {
 		ds.GetLogger().Println(fmt.Sprintf("Allowing %d concurrent requests.", ds.GetMaxConnections()))
 	}
 
+	// if ds.GetMaxTcpConnections() > 0 {
+	// 	ds.GetLogger().Println(fmt.Sprintf("Allowing %d concurrent TCP connections.", ds.GetMaxTcpConnections()))
+	// }
+
 	if ds.GetDelayReply() > 0 {
 		ds.GetLogger().Println(fmt.Sprintf("Delaying replies by %dms..", ds.GetDelayReply()))
 	}
@@ -343,7 +347,13 @@ func (ds *Dispatcher) Run() {
 		ds.GetLogger().Println(fmt.Sprintf("Starting listener on 'http://%s:%d'", ds.GetHost(), ds.GetPort()))
 	}
 
+	// if ds.GetMaxTcpConnections() > 0 {
+	// 	var l LimitedTcpListener
+	// 	l = InitLimitedTcpListener(ds.GetMaxTcpConnections(), listener)
+	// 	err = http.Serve(l, wrappedHandler)
+	// } else {
 	err = http.Serve(listener, wrappedHandler)
+	// }
 	ds.GetLogger().Fatal(err)
 }
 

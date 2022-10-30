@@ -107,6 +107,7 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 	pkeyfile := flagset.String("key", "", "Private key file.")
 	pcafile := flagset.String("ca", "", "CA chains.")
 	pconfig := flagset.String("config", "", "Configuration file.")
+	// pmaxTcpConnections := flagset.Int("maxtcpconnections", -1, "Maximum of parallel connections to accept on TCP level.")
 	pmaxConnections := flagset.Int("maxconnections", -1, "Maximum of parallel connections to accept.")
 	pdelayReply := flagset.Int("delayreply", -1, "Slow down replying by this amount of ms.")
 	pclientTimeout := flagset.Int("clienttimeout", 1500, "Timeout of HTTP client in ms.")
@@ -212,6 +213,15 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 	if len(configurationFile) == 0 {
 		configurationFile = os.Getenv("MS_CONFIG")
 	}
+
+	// if *pmaxTcpConnections > 0 {
+	// 	cfg.MaxTcpConnections = *pmaxTcpConnections
+	// } else {
+	// 	ev := os.Getenv("MS_MAXTCPCONNECTIONS")
+	// 	if len(ev) > 0 {
+	// 		cfg.MaxTcpConnections, _ = strconv.Atoi(ev)
+	// 	}
+	// }
 
 	if *pmaxConnections > 0 {
 		cfg.MaxConnections = *pmaxConnections
@@ -321,6 +331,10 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 		if len(cfg.CAFile) == 0 {
 			cfg.CAFile = cfgFile.CAFile
 		}
+
+		// if cfg.MaxTcpConnections < 0 {
+		// 	cfg.MaxTcpConnections = cfgFile.MaxConnections
+		// }
 
 		if cfg.MaxConnections < 0 {
 			cfg.MaxConnections = cfgFile.MaxConnections
