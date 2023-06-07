@@ -151,18 +151,12 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 	if len(cfg.Name) == 0 {
 		cfg.Name = os.Getenv("MS_NAME")
 	}
-	if len(cfg.Name) == 0 {
-		cfg.Name = os.Getenv("HOSTNAME")
-	}
 
 	if len(*phostname) > 0 {
 		cfg.Hostname = *phostname
 	}
 	if len(cfg.Hostname) == 0 {
 		cfg.Hostname = os.Getenv("MS_HOSTNAME")
-	}
-	if len(cfg.Hostname) == 0 {
-		cfg.Hostname = os.Getenv("HOSTNAME")
 	}
 
 	if len(*pversion) > 0 {
@@ -356,6 +350,10 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 	}
 
 	if len(cfg.Name) == 0 {
+		cfg.Name = os.Getenv("HOSTNAME")
+	}
+
+	if len(cfg.Name) == 0 {
 		var seededRand *rand.Rand = rand.New(
 			rand.NewSource(time.Now().UnixNano()))
 		charset := "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
@@ -364,6 +362,10 @@ func InitConfigurationFromArgs(cfg *Configuration, args []string, flagset *flag.
 			b[i] = charset[seededRand.Intn(len(charset))]
 		}
 		cfg.Name = string(b)
+	}
+
+	if len(cfg.Hostname) == 0 {
+		cfg.Hostname = os.Getenv("HOSTNAME")
 	}
 
 	if len(cfg.Hostname) == 0 {
