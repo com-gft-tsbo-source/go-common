@@ -304,7 +304,7 @@ func (ds *Dispatcher) Run() {
 	var listener net.Listener
 	var wrappedHandler http.HandlerFunc
 
-	ds.GetLogger().Println(fmt.Sprintf("This is '%s' in module '%s' for project '%s' of customer '%s' built at '%s' from '%s' at version '%s'.", _build_component, _build_module, _build_project, _build_customer, _build_stamp, _build_commit, _build_version))
+	ds.GetLogger().Println(fmt.Sprintf("This is '%s' in module '%s' for project '%s' of customer '%s' built at '%s' from '%s' at version '%s (%s)'.", _build_component, _build_module, _build_project, _build_customer, _build_stamp, _build_commit, ds.GetVersion(), _build_version))
 
 	if ds.tlsInfo != nil && ds.tlsInfo.certificate != nil {
 		listener, err = tls.Listen("tcp", fmt.Sprintf("%s:%d", ds.GetHost(), ds.GetPort()), ds.tlsInfo.tlsConfig)
