@@ -162,7 +162,7 @@ func (cfg ConnectionConfiguration) GetName() string { return cfg.Name }
 func (cfg ConnectionConfiguration) GetHostname() string { return cfg.Hostname }
 
 // GetVersion ...
-func (cfg ConnectionConfiguration) GetVersion() string { return cfg.Version }
+func (cfg ConnectionConfiguration) GetVersion() string { if cfg.Version == "" { return _build_version } else { return cfg.Version } }
 
 // GetCertChainFile ...
 func (cfg *TLSConfiguration) GetCertChainFile() string { return cfg.CertChainFile }
